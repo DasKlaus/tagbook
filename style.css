@@ -1,0 +1,30 @@
+main a {color: unset; text-decoration: unset;}
+body {padding-left: 320px; margin:0;}
+form {display: inline-block;}
+aside {height: 100%; width: 300px; position: fixed; background-color: #bbb; left:0; top:0; padding: 20px; box-sizing: border-box;}
+header {text-align: center;}
+nav {text-align: center;}
+nav input {margin: 10px;}
+article {margin-bottom: 10px; border-bottom: 1px dotted #666;}
+article input {margin-left: 5px;}
+article input[type="text"] {width: 189px;}
+small {margin-left: 20px;}
+article.book a.book {display: block;}
+a.book {color: #000; text-decoration: none; padding: 5px;;}
+a.book:hover {text-decoration: underline;}
+div.ratings {float:left; margin-right: 10px;}
+span.rating {font-size: 1.5em; font-family: sans-serif; font-weight: bold;}
+span.rating.no {color: #fff;}
+span.rating.a {color: #666;}
+span.rating.b {color: #000;}
+span.rating.c {color: #700;}
+span.rating.d {color: #b01;}
+.tag.warning {color: #700;}
+.tag {text-decoration: underline; color: #333; font-family: sans-serif; display: inline-block; padding: 5px; display: inline-block; position: relative;}
+.tag:hover {color: #000;}
+.tag.important {font-weight: bold;}
+.tag span.note {position: absolute; top: 2.5em; display: none; background-color: #bbb; padding: 5px; font-size: 0.6em; z-index: 2;}
+.tag:hover span.note {display: block;}
+.tag span.note.spoiler {color: #bbb;}
+.addtags .tag {width: 200px;}
+
