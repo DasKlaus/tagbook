@@ -1,0 +1,84 @@
+<!Doctype html>
+<html>
+<head>
+<title>TagBook</title>
+<meta charset="UTF-8">
+<style>
+body {padding-left: 320px; margin:0;}
+form {display: inline-block;}
+aside {height: 100%; width: 300px; position: fixed; background-color: #bbb; left:0; top:0; padding: 20px; box-sizing: border-box;}
+header {text-align: center;}
+nav {text-align: center;}
+nav input {margin: 10px;}
+article {margin-bottom: 10px; border-bottom: 1px dotted #666;}
+article.book a.book {display: block;}
+a.book {color: #000; text-decoration: none; margin-right: 10px;}
+a.book:hover {text-decoration: underline;}
+div.ratings {float:left; margin-right: 10px;}
+span.rating {font-size: 1.5em; font-family: sans-serif; font-weight: bold;}
+span.rating.a {color: #666;}
+span.rating.b {color: #000;}
+span.rating.c {color: #700;}
+span.rating.d {color: #b01;}
+a.tag.warning {color: #700;}
+a.tag {text-decoration: underline; color: #333; font-family: sans-serif; display: inline-block; padding: 5px;}
+a.tag:hover {color: #000;}
+a.tag.important {font-weight: bold;}
+</style>
+</head>
+<body>
+
+<aside>
+All pages:<br>
+<a href="index.html">Start page</a><br>
+<a href="tag.html">Book list</a><br>
+<a href="book.html">Book view</a><br>
+<a href="addtags.html">Tagging</a><br>
+<a href="user.html">User page</a><br>
+<a href="private.html">Private tags</a><br>
+<a href="messages.html">Messages</a><br>
+<a href="wrangle.html">Wrangle overview</a><br>
+<a href="wrangletag.html">Wrangle tag</a><br><br>
+Any tag you've marked as private shows up here. That way you can make lists like the book shelves of goodreads. Goodreads has an API, so we should be able to easily import things from there.
+</aside>
+
+<header><h1>TAGBOOK DEMO - PRIVATE TAGS</h1></header>
+
+<nav>
+<input type="text" placeholder="search for book">
+<input type="text" placeholder="search books by tags">
+<form action="books.html" method="post"><input type="submit" value="tagged books"></form>
+<form action="private.html" method="post"><input type="submit" value="private tags"></form>
+<form action="messages.html" method="post"><input type="submit" value="messages"></form>
+</nav>
+
+<main>
+<section>
+<h2>Your private tags</h2> 
+<article>
+<a href="tag.html" class="tag"><b>favourite</b></a> (4 books) 
+<a href="book.html" class="book">To Kill a Mockingbird</a>
+<a href="book.html" class="book">The Diary of a Young Girl</a>
+<a href="book.html" class="book">1984</a>
+<a href="book.html" class="book">Gone With the Wind</a>
+</article>
+<article>
+<a href="tag.html" class="tag"><b>read</b></a> (51 books) 
+<a href="book.html" class="book">Hunger Games</a>
+<a href="book.html" class="book">Clockwork Orange</a>
+<a href="book.html" class="book">Pride and Prejudice</a>
+<a href="book.html" class="book">War and Peace</a> and 47 more
+</article>
+<article>
+<a href="tag.html" class="tag"><b>sci-fi</b></a> (7 books) 
+<a href="book.html" class="book">2001 - A space Odyssee</a>
+<a href="book.html" class="book">The Martian</a>
+<a href="book.html" class="book">Dune</a>
+<a href="book.html" class="book">Brave New World</a>
+<a href="book.html" class="book">Frankenstein</a> and 2 more
+</article>
+</section>
+
+</main>
+</body>
+</html>

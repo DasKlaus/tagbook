@@ -1,0 +1,124 @@
+<!Doctype html>
+<html>
+<head>
+<title>TagBook</title>
+<meta charset="UTF-8">
+<style>
+main a {color: unset; text-decoration: unset;}
+body {padding-left: 320px; margin:0;}
+form {display: inline-block;}
+aside {height: 100%; width: 300px; position: fixed; background-color: #bbb; left:0; top:0; padding: 20px; box-sizing: border-box;}
+header {text-align: center;}
+nav {text-align: center;}
+nav input {margin: 10px;}
+article {margin-bottom: 10px; border-bottom: 1px dotted #666;}
+article.book a.book {display: block;}
+a.book {color: #000; text-decoration: none; padding: 5px;;}
+a.book:hover {text-decoration: underline;}
+div.ratings {float:left; margin-right: 10px;}
+span.rating {font-size: 1.5em; font-family: sans-serif; font-weight: bold;}
+span.rating.a {color: #666;}
+span.rating.b {color: #000;}
+span.rating.c {color: #700;}
+span.rating.d {color: #b01;}
+.tag.warning {color: #700;}
+.tag {text-decoration: underline; color: #333; font-family: sans-serif; display: inline-block; padding: 5px; display: inline-block; position: relative;}
+.tag:hover {color: #000;}
+/*.tag:hover::before {display: block; left: 0; margin-left: -40px; content: "dispute"; position: absolute; font-size: 0.6em; border: 1px solid #000; border-radius: 5px; top: 8px; background-color: #fff;}*/
+.tag.important {font-weight: bold;}
+.tag span.note {position: absolute; top: 2.5em; display: none; background-color: #bbb; padding: 5px; font-size: 0.6em; z-index: 2;}
+.tag:hover span.note {display: block;}
+.tag span.note.spoiler {color: #bbb;}
+</style>
+</head>
+<body>
+
+<aside>
+All pages:<br>
+<a href="index.html">Start page</a><br>
+<a href="tag.html">Book list</a><br>
+<a href="book.html">Book view</a><br>
+<a href="addtags.html">Tagging</a><br>
+<a href="user.html">User page</a><br>
+<a href="private.html">Private tags</a><br>
+<a href="messages.html">Messages</a><br>
+<a href="wrangle.html">Wrangle overview</a><br>
+<a href="wrangletag.html">Wrangle tag</a><br><br>
+Tagging books sure is work. Hover over a tag to display notes.
+</aside>
+
+<header><h1>TAGBOOK DEMO - BOOK VIEW</h1></header>
+
+<nav>
+<input type="text" placeholder="search for book">
+<input type="text" placeholder="search books by tags">
+<form action="user.html" method="post"><input type="submit" value="login"></form>
+</nav>
+
+<main>
+<section>
+<div class="ratings">
+<span class="rating b" title="Violence: non-graphic description, violent themes">V</span><span class="rating a" title="Sex: non-graphic mention">S</span>
+</div>
+<h2>The Gone-Away World <small style="font-weight: normal;"><i>Nick Harkaway</i></small></h2>
+<a href="tag.html" class="tag important">science fiction (soft)</a>
+<a href="tag.html" class="tag important">action</a>
+<a href="tag.html" class="tag important">humour</a>
+<a href="tag.html" class="tag important">saving the world</a>
+<a href="tag.html" class="tag important">ninjas</a>
+<a href="tag.html" class="tag">mystery</a>
+<div class="tag"><a href="tag.html">philosophy</a><span class="note">heavy use of Aristotle's substance theory</span></div>
+<a href="tag.html" class="tag">light-hearted</a>
+<a href="tag.html" class="tag">ontology</a>
+<div class="tag"><a href="tag.html">chinese philosophy</a><span class="note">dualism, martial arts specific schools of thought</span></div>
+<div class="tag"><a href="tag.html">fictional places</a><span class="note">A part of the story takes place in the fictional central asian nation Addeh Katir</span></div>
+<a href="tag.html" class="tag">romance (heterosexual)</a>
+<a href="tag.html" class="tag">happy end</a>
+<a href="tag.html" class="tag">martial arts</a>
+<a href="tag.html" class="tag warning">dystopia</a>
+<a href="tag.html" class="tag warning">war</a>
+<div class="tag"><a href="tag.html">anti-capitalist</a><span class="note">bureaucracy installed by an evil corporation</span></div>
+<div class="tag"><a href="tag.html">post-apocalyptic world</a><span class="note">most of the world has literally disappeared</span></div>
+<div class="tag"><a href="tag.html">plot twist</a><span class="note spoiler"><input type="button" value="show spoiler" onclick="spoilTag(this)">protagonist is the imaginary friend of his best friend</span></div>
+<a href="tag.html" class="tag">platonism</a>
+<a href="tag.html" class="tag">near future</a>
+<br><br>
+<script>
+function more(btn) {
+  document.getElementById('more').style.display='block';
+  btn.parentNode.removeChild(btn);
+}
+function spoil(btn) {
+  document.getElementById('spoiler').style.display='block';
+  btn.parentNode.removeChild(btn);
+}
+function spoilTag(btn) {
+  btn.parentNode.style.color="#000";
+  btn.parentNode.removeChild(btn);
+}
+</script>
+<input type="button" value="show 5 more tags (1 of them warnings)" onclick="more(this);">
+<div id="more" style="display: none">
+<a href="tag.html" class="tag">kafkaesque</a>
+<a href="tag.html" class="tag">reification</a>
+<a href="tag.html" class="tag">mimes</a>
+<a href="tag.html" class="tag">unstable reality</a>
+<a href="tag.html" class="tag">evil corporation</a>
+<a href="tag.html" class="tag warning">human rights abuses (mentioned)</a>
+</div><br>
+<input type="button" value="show 2 spoilers (none of them warnings)" onclick="spoil(this);">
+<div id="spoiler" style="display: none;">
+<div class="tag spoiler"><a href="tag.html">imaginary friends</a><span class="note spoiler"><input type="button" value="show spoiler" onclick="spoilTag(this)">protagonist is an imaginary friend</span></div>
+<div class="tag spoiler"><a href="tag.html">split personality</a><span class="note spoiler"><input type="button" value="show spoiler" onclick="spoilTag(this)">protagonist and his best friend used to be a single person</span></div>
+</div>
+<br><br>
+<form method="post" action="addtags.html"><input type="submit" value="add tags"></form><br><br>
+<a href="/" class="out">This book on Goodreads</a><br>
+<a href="/" class="out">This book on Wikipedia</a><br>
+<a href="/" class="out">This book on common sense media</a><br>
+<a href="/" class="out">Get it from the publisher</a><br>
+<a href="/" class="out">Get it from Amazon</a>
+</section>
+</main>
+</body>
+</html>

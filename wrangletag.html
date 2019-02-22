@@ -1,0 +1,85 @@
+<!Doctype html>
+<html>
+<head>
+<title>TagBook</title>
+<meta charset="UTF-8">
+<style>
+body {padding-left: 320px; margin:0;}
+form {display: inline-block;}
+aside {height: 100%; width: 300px; position: fixed; background-color: #bbb; left:0; top:0; padding: 20px; box-sizing: border-box;}
+header {text-align: center;}
+nav {text-align: center;}
+nav input {margin: 10px;}
+article {margin-bottom: 10px; border-bottom: 1px dotted #666;}
+article.book a.book {display: block;}
+a.book {color: #000; text-decoration: none; margin-right: 10px;}
+a.book:hover {text-decoration: underline;}
+div.ratings {float:left; margin-right: 10px;}
+span.rating {font-size: 1.5em; font-family: sans-serif; font-weight: bold;}
+span.rating.a {color: #666;}
+span.rating.b {color: #000;}
+span.rating.c {color: #700;}
+span.rating.d {color: #b01;}
+a.tag.warning {color: #700;}
+a.tag {text-decoration: underline; color: #333; font-family: sans-serif; display: inline-block; padding: 5px;}
+a.tag:hover {color: #000;}
+a.tag.important {font-weight: bold;}
+small {margin-left: 20px;}
+</style>
+</head>
+<body>
+
+<aside>
+All pages:<br>
+<a href="index.html">Start page</a><br>
+<a href="tag.html">Book list</a><br>
+<a href="book.html">Book view</a><br>
+<a href="addtags.html">Tagging</a><br>
+<a href="user.html">User page</a><br>
+<a href="private.html">Private tags</a><br>
+<a href="messages.html">Messages</a><br>
+<a href="wrangle.html">Wrangle overview</a><br>
+<a href="wrangletag.html">Wrangle tag</a><br><br>
+I have no idea how wrangling looks like. Probably better than this.
+</aside>
+
+<header><h1>TAGBOOK DEMO - WRANGLE TAG</h1></header>
+
+<nav>
+<input type="text" placeholder="search for book">
+<input type="text" placeholder="search books by tags">
+<form action="tag.html" method="post"><input type="submit" value="tagged books"></form>
+<form action="private.html" method="post"><input type="submit" value="private tags"></form>
+<form action="messages.html" method="post"><input type="submit" value="messages"></form>
+</nav>
+
+<main>
+<section>
+<h2>many characters die</h2>
+<article>
+change to <input type="text" value="multiple character death"><br>
+<small>use for misspellings and too elaborate tags only</small>
+</article>
+<article>
+make a synonym for <input type="text" value="multiple character death"><br>
+<small>use this if possible, synonym should be a canonical tag</small>
+</article>
+<article>
+<input type="checkbox">make canonical<br>
+<small>unless canonical this tag will be hidden by default</small>
+</article>
+<article>
+<input type="checkbox" checked>make a warning<br>
+<small>warnings will be highlighted by default, use for potentially upsetting content</small>
+</article>
+<article>
+<input type="checkbox">make private by default<br>
+<small>only use this for purely subjective tags</small>
+</article>
+<article>
+<input type="text" value="character death"><input type="button" value="add metatag"><br>
+<small>add canonical tags that are implied</small>
+</section>
+</main>
+</body>
+</html>

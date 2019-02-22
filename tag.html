@@ -1,0 +1,93 @@
+<!Doctype html>
+<html>
+<head>
+<title>TagBook</title>
+<meta charset="UTF-8">
+<style>
+body {padding-left: 320px; margin:0;}
+form {display: inline-block;}
+aside {height: 100%; width: 300px; position: fixed; background-color: #bbb; left:0; top:0; padding: 20px; box-sizing: border-box;}
+header {text-align: center;}
+nav {text-align: center;}
+nav input {margin: 10px;}
+article {margin-bottom: 10px; border-bottom: 1px dotted #666;}
+article.book a.book {display: block;}
+a.book {color: #000; text-decoration: none; margin-right: 10px;}
+a.book:hover {text-decoration: underline;}
+div.ratings {float:left; margin-right: 10px;}
+span.rating {font-size: 1.5em; font-family: sans-serif; font-weight: bold;}
+span.rating.a {color: #666;}
+span.rating.b {color: #000;}
+span.rating.c {color: #700;}
+span.rating.d {color: #b01;}
+a.tag.warning {color: #700;}
+a.tag {text-decoration: underline; color: #333; font-family: sans-serif; display: inline-block; padding: 5px;}
+a.tag:hover {color: #000;}
+a.tag.important {font-weight: bold;}
+</style>
+</head>
+<body>
+
+<aside>
+All pages:<br>
+<a href="index.html">Start page</a><br>
+<a href="tag.html">Book list</a><br>
+<a href="book.html">Book view</a><br>
+<a href="addtags.html">Tagging</a><br>
+<a href="user.html">User page</a><br>
+<a href="private.html">Private tags</a><br>
+<a href="messages.html">Messages</a><br>
+<a href="wrangle.html">Wrangle overview</a><br>
+<a href="wrangletag.html">Wrangle tag</a><br><br>
+This is the view of any book list - be it a private list, a search result or all works for a specific tag. There should be much more content here. Obviously.
+</aside>
+
+<header><h1>TAGBOOK DEMO - BOOK LIST</h1></header>
+
+<nav>
+<input type="text" placeholder="search for book">
+<input type="text" placeholder="search books by tags">
+<form action="user.html" method="post"><input type="submit" value="login"></form>
+</nav>
+
+<main>
+<section>
+<h2>Results for "dystopia"</h2>
+<article class="book">
+<div class="ratings">
+<span class="rating b" title="Violence: non-graphic mentions, violent themes">V</span>
+</div>
+<a href="book.html" class="book"><b>Animal Farm</b> by George Orwell</a>
+<a href="tag.html" class="tag">satire</a>
+<a href="tag.html" class="tag">allegory</a>
+<a href="tag.html" class="tag">novella</a>
+<a href="tag.html" class="tag">revolution</a>
+<a href="tag.html" class="tag">politics</a>
+<a href="tag.html" class="tag warning">dystopia</a>
+<a href="tag.html" class="tag">talking animals</a>
+</article>
+<article class="book">
+<div class="ratings">
+<span class="rating c" title="Violence: graphic descriptions, violent themes">V</span>
+</div>
+<a href="book.html" class="book"><b>Hunger Games</b> by Suzanne Collins</a>
+<a href="tag.html" class="tag">love triangle</a>
+<a href="tag.html" class="tag warning">child death</a>
+<a href="tag.html" class="tag warning">character death</a>
+<a href="tag.html" class="tag warning">violence</a>
+<a href="tag.html" class="tag warning">dystopia</a>
+<a href="tag.html" class="tag">reality tv</a>
+<a href="tag.html" class="tag">female hero</a>
+</article>
+<article class="book">
+<div class="ratings">
+<span class="rating b" title="Violence: non-graphic descriptions">V</span><span class="rating c" title="Sex: graphic descriptions">S</span>
+</div>
+<a href="book.html" class="book"><b>The Handmaid's Tale</b> by Margaret Atwood</a>
+<a href="tag.html" class="tag warning">dystopia</a>
+<a href="tag.html" class="tag">speculative fiction</a>
+</article>
+</section>
+</main>
+</body>
+</html>

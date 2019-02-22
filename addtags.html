@@ -1,0 +1,209 @@
+<!Doctype html>
+<html>
+<head>
+<title>TagBook</title>
+<meta charset="UTF-8">
+<style>
+body {padding-left: 320px; margin:0;}
+form {display: inline-block;}
+aside {height: 100%; width: 300px; position: fixed; background-color: #bbb; left:0; top:0; padding: 20px; box-sizing: border-box;}
+header {text-align: center;}
+nav {text-align: center;}
+nav input {margin: 10px;}
+article {margin-bottom: 10px; border-bottom: 1px dotted #666;}
+article input {margin-left: 5px;}
+article.book a.book {display: block;}
+a.book {color: #000; text-decoration: none; margin-right: 10px;}
+a.book:hover {text-decoration: underline;}
+div.ratings {float:left; margin-right: 10px;}
+span.rating {font-size: 1.5em; font-family: sans-serif; font-weight: bold;}
+span.rating.no {color: #fff;}
+span.rating.a {color: #666;}
+span.rating.b {color: #000;}
+span.rating.c {color: #700;}
+span.rating.d {color: #b01;}
+a.tag.warning {color: #700;}
+a.tag {text-decoration: underline; color: #333; font-family: sans-serif; display: inline-block; padding: 5px; width: 200px;}
+a.tag:hover {color: #000;}
+a.tag.important {font-weight: bold;}
+article input[type="text"] {width: 189px;}
+</style>
+</head>
+<body>
+
+<aside>
+All pages:<br>
+<a href="index.html">Start page</a><br>
+<a href="tag.html">Book list</a><br>
+<a href="book.html">Book view</a><br>
+<a href="addtags.html">Tagging</a><br>
+<a href="user.html">User page</a><br>
+<a href="private.html">Private tags</a><br>
+<a href="messages.html">Messages</a><br>
+<a href="wrangle.html">Wrangle overview</a><br>
+<a href="wrangletag.html">Wrangle tag</a><br><br>
+This is the tag input site, where you can add new tags for a work. I'd like to remind you that this is not functional and no inputs will be saved.
+</aside>
+
+<header><h1>TAGBOOK DEMO - TAGGING</h1></header>
+
+<nav>
+<input type="text" placeholder="search for book">
+<input type="text" placeholder="search books by tags">
+<form action="tag.html" method="post"><input type="submit" value="tagged books"></form>
+<form action="private.html" method="post"><input type="submit" value="private tags"></form>
+<form action="messages.html" method="post"><input type="submit" value="messages"></form>
+</nav>
+
+<main>
+<script>
+function rate(btn) {
+  document.getElementById(btn.attributes["name"].value).className="rating "+btn.value;
+}
+function imp(btn) {
+  if (btn.checked) btn.parentNode.firstChild.nextSibling.className = "tag important";
+  else btn.parentNode.firstChild.nextSibling.className = "tag";
+}
+function addspoil(btn) {
+  if (btn.parentNode.lastChild==btn || btn.parentNode.lastChild.previousSibling==btn) 
+    btn.parentNode.innerHTML+='<input type="checkbox" onchange="addspoil(this);">details are a spoiler';
+}
+function addtag(btn) { // convoluted mess but at least it works now
+  var newtag = btn.value;
+  var article = btn.parentNode;
+  var newinput = document.createElement("article");
+  article.parentNode.appendChild(newinput);
+  newinput.innerHTML=' <input type="text" placeholder="tag"> <input type="checkbox">important <input type="checkbox">spoiler <input type="checkbox">private <input type="text" placeholder="details" onchange="addspoil(this);">';
+  var tag = document.createElement("a");
+  tag.href="tag.html";
+  tag.className="tag";
+  if (btn.parentNode.getElementsByTagName('input')[1].checked) tag.className+=" important";
+  tag.innerHTML = newtag;
+  article.insertBefore(tag, article.childNodes[0]);
+  article.removeChild(article.getElementsByTagName('input')[0]);
+}
+</script>
+<section>
+<div class="ratings">
+<span class="rating c" id="v" title="Violence: graphic description, violent themes">V</span>
+<span class="rating no" id="s" title="Sex: none">S</span>
+</div>
+<h2>Animal Farm <small style="font-weight: normal;"><i>George Orwell</i></small></h2>
+<h3>Violence</h3> 
+<input type="radio" name="v" value="no" onchange="rate(this);"> none 
+<input type="radio" name="v" value="a" onchange="rate(this);"> mentioned 
+<input type="radio" name="v" value="b" onchange="rate(this);"> non-graphic description 
+<input type="radio" name="v" value="c" onchange="rate(this);" checked> graphic description 
+<input type="radio" name="v" value="d" onchange="rate(this);"> gratituous description
+<br>
+<h3>Sex</h3> 
+<input type="radio" name="s" value="no" onchange="rate(this);" checked> none 
+<input type="radio" name="s" value="a" onchange="rate(this);"> mentioned 
+<input type="radio" name="s" value="b" onchange="rate(this);"> non-graphic description 
+<input type="radio" name="s" value="c" onchange="rate(this);"> graphic description 
+<input type="radio" name="s" value="d" onchange="rate(this);"> gratituous description
+<br><br>
+<h3>Tags</h3>
+<article>
+<a href="tag.html" class="tag important">satire</a>
+<input type="checkbox" checked onchange="imp(this);">important
+<input type="checkbox">spoiler
+<input type="checkbox">private
+<input type="text" placeholder="details" onchange="addspoil(this);">
+</article>
+<article>
+<a href="tag.html" class="tag important">allegory</a>
+<input type="checkbox" checked onchange="imp(this);">important
+<input type="checkbox">spoiler
+<input type="checkbox">private
+<input type="text" placeholder="details" onchange="addspoil(this);">
+</article>
+<article>
+<a href="tag.html" class="tag important">novella</a>
+<input type="checkbox" checked onchange="imp(this);">important
+<input type="checkbox">spoiler
+<input type="checkbox">private
+<input type="text" placeholder="details" onchange="addspoil(this);">
+</article>
+<article>
+<a href="tag.html" class="tag important">revolution</a>
+<input type="checkbox" checked onchange="imp(this);">important
+<input type="checkbox">spoiler
+<input type="checkbox">private
+<input type="text" placeholder="details" onchange="addspoil(this);">
+</article>
+<article>
+<a href="tag.html" class="tag important">politics</a>
+<input type="checkbox" checked onchange="imp(this);">important
+<input type="checkbox">spoiler
+<input type="checkbox">private
+<input type="text" placeholder="details" onchange="addspoil(this);">
+</article>
+<article>
+<a href="tag.html" class="tag warning important">dystopia</a>
+<input type="checkbox" checked onchange="imp(this);">important
+<input type="checkbox">spoiler
+<input type="checkbox">private
+<input type="text" placeholder="details" onchange="addspoil(this);">
+</article>
+<article>
+<a href="tag.html" class="tag important">talking animals</a>
+<input type="checkbox" checked onchange="imp(this);">important
+<input type="checkbox">spoiler
+<input type="checkbox">private
+<input type="text" placeholder="details" onchange="addspoil(this);">
+</article>
+<article>
+<a href="tag.html" class="tag">fable</a>
+<input type="checkbox" onchange="imp(this);">important
+<input type="checkbox">spoiler
+<input type="checkbox">private
+<input type="text" placeholder="details" onchange="addspoil(this);">
+</article>
+<article>
+<a href="tag.html" class="tag">pigs</a>
+<input type="checkbox" onchange="imp(this);">important
+<input type="checkbox">spoiler
+<input type="checkbox">private
+<input type="text" placeholder="details" onchange="addspoil(this);">
+</article>
+<article>
+<a href="tag.html" class="tag">oppressed to oppressor</a>
+<input type="checkbox" onchange="imp(this);">important
+<input type="checkbox">spoiler
+<input type="checkbox">private
+<input type="text" placeholder="details" value="the pigs">
+<input type="checkbox" checked onchange="addspoil(this);">details are a spoiler
+</article>
+<article>
+<a href="tag.html" class="tag">corruption</a>
+<input type="checkbox" onchange="imp(this);">important
+<input type="checkbox">spoiler
+<input type="checkbox">private
+<input type="text" placeholder="details" onchange="addspoil(this);">
+</article>
+<article>
+<a href="tag.html" class="tag">good intentions, bad outcome</a>
+<input type="checkbox" onchange="imp(this);">important
+<input type="checkbox">spoiler
+<input type="checkbox">private
+<input type="text" placeholder="details" onchange="addspoil(this);">
+</article>
+<article>
+<a href="tag.html" class="tag">agriculture</a>
+<input type="checkbox" onchange="imp(this);">important
+<input type="checkbox">spoiler
+<input type="checkbox">private
+<input type="text" placeholder="details" onchange="addspoil(this);">
+</article>
+<article>
+<input type="text" placeholder="tag" onchange="addtag(this);">
+<input type="checkbox">important
+<input type="checkbox">spoiler
+<input type="checkbox">private
+<input type="text" placeholder="details" onchange="addspoil(this);">
+</article>
+</section>
+</main>
+</body>
+</html>

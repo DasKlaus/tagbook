@@ -1,0 +1,131 @@
+<!Doctype html>
+<html>
+<head>
+<title>TagBook</title>
+<meta charset="UTF-8">
+<style>
+body {padding-left: 320px; margin:0;}
+form {display: inline-block;}
+aside {height: 100%; width: 300px; position: fixed; background-color: #bbb; left:0; top:0; padding: 20px; box-sizing: border-box;}
+header {text-align: center;}
+nav {text-align: center;}
+nav input {margin: 10px;}
+article {margin-bottom: 10px; border-bottom: 1px dotted #666;}
+article.book a.book {display: block;}
+a.book {color: #000; text-decoration: none; margin-right: 10px;}
+a.book:hover {text-decoration: underline;}
+div.ratings {float:left; margin-right: 10px;}
+span.rating {font-size: 1.5em; font-family: sans-serif; font-weight: bold;}
+span.rating.a {color: #666;}
+span.rating.b {color: #000;}
+span.rating.c {color: #700;}
+span.rating.d {color: #b01;}
+a.tag.warning {color: #700;}
+a.tag {text-decoration: underline; color: #333; font-family: sans-serif; display: inline-block; padding: 5px;}
+a.tag:hover {color: #000;}
+a.tag.important {font-weight: bold;}
+</style>
+</head>
+<body>
+
+<aside>
+All pages:<br>
+<a href="index.html">Start page</a><br>
+<a href="tag.html">Book list</a><br>
+<a href="book.html">Book view</a><br>
+<a href="addtags.html">Tagging</a><br>
+<a href="user.html">User page</a><br>
+<a href="private.html">Private tags</a><br>
+<a href="messages.html">Messages</a><br>
+<a href="wrangle.html">Wrangle overview</a><br>
+<a href="wrangletag.html">Wrangle tag</a><br><br>
+This is just a demo. Its purpose is to show what kind of views and features might exist, what buttons, what menu items, what the general structure of information could be. What this is not: a design, or a working site. You can click through the links to look at stuff, the stuff does not come out of a database, though. Pure HTML. All books link to the same book page, all tags to the same tag page etc. Not all links lead to something, and there's no context menus for user action (to dispute a tag etc)<br><br>
+</aside>
+
+<header><h1>TAGBOOK DEMO - START PAGE</h1></header>
+
+<nav>
+<input type="text" placeholder="search for book">
+<input type="text" placeholder="search books by tags">
+<form action="user.html" method="post"><input type="submit" value="login"></form>
+</nav>
+
+<main>
+<section>
+<h2>Popular tags</h2> 
+<a href="tag.html" class="tag">drama</a>
+<a href="tag.html" class="tag">adventure</a>
+<a href="tag.html" class="tag">romance</a>
+<a href="tag.html" class="tag">young adult</a>
+<a href="tag.html" class="tag">werewolf</a>
+<a href="tag.html" class="tag">crime</a>
+<a href="tag.html" class="tag">mystery</a>
+<a href="tag.html" class="tag">science fiction</a>
+<a href="tag.html" class="tag">happy ending</a>
+<a href="tag.html" class="tag">comedy</a>
+</section>
+
+<section>
+<h2>Recently tagged</h2>
+<article class="book">
+<div class="ratings">
+<span class="rating c" title="Violence: graphic description, violent themes">V</span>
+</div>
+<a href="book.html" class="book"><b>The Lord of the Rings</b> by J.R.R. Tolkien</a>
+<a href="tag.html" class="tag">fantasy</a>
+<a href="tag.html" class="tag">travel</a>
+<a href="tag.html" class="tag">good vs evil</a>
+<a href="tag.html" class="tag warning">character death</a>
+<a href="tag.html" class="tag">saving the world</a>
+<a href="tag.html" class="tag">jewlery</a>
+</article>
+<article class="book">
+<div class="ratings">
+<span class="rating a" title="Violence: non-graphic description, violent themes">V</span>
+</div>
+<a href="book.html" class="book"><b>Animal Farm</b> by George Orwell</a>
+<a href="tag.html" class="tag">satire</a>
+<a href="tag.html" class="tag">allegory</a>
+<a href="tag.html" class="tag">novella</a>
+<a href="tag.html" class="tag">revolution</a>
+<a href="tag.html" class="tag">politics</a>
+<a href="tag.html" class="tag warning">dystopia</a>
+<a href="tag.html" class="tag">talking animals</a>
+</article>
+<article class="book">
+<div class="ratings">
+<span class="rating c" title="Violence: graphic description, violent themes">V</span>
+</div>
+<a href="book.html" class="book"><b>Adventures of Huckleberry Finn</b> by Mark Twain</a>
+<a href="tag.html" class="tag">adventure</a>
+<a href="tag.html" class="tag">picaresque</a>
+<a href="tag.html" class="tag">bildungsroman</a>
+<a href="tag.html" class="tag">civil war (USA)</a>
+<a href="tag.html" class="tag warning">slavery</a>
+</article>
+<article class="book">
+<div class="ratings">
+<span class="rating b" title="Violence: non-graphic description, violent themes">V</span><span class="rating a" title="Sex: non-graphic mention">S</span>
+</div>
+<a href="book.html" class="book"><b>Dune</b> by Frank Herbert</a>
+<a href="tag.html" class="tag">soft science fiction</a>
+<a href="tag.html" class="tag">man vs nature</a>
+<a href="tag.html" class="tag">coming of age</a>
+</article>
+<article class="book">
+<div class="ratings">
+<span class="rating a" title="Violence: non-graphic mention">V</span>
+</div>
+<a href="book.html" class="book"><b>Charlie and the Chocolate Factory</b> by Roald Dahl</a>
+<a href="tag.html" class="tag">fairy tale</a>
+<a href="tag.html" class="tag">children's literature</a>
+<a href="tag.html" class="tag">fantasy</a>
+<a href="tag.html" class="tag">humour</a>
+<a href="tag.html" class="tag warning">child abuse</a>
+<a href="tag.html" class="tag">rags to riches</a>
+<a href="tag.html" class="tag warning">health code violations</a>
+</article>
+</section>
+</main>
+</body>
+</html>
