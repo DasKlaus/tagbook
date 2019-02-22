@@ -19,8 +19,8 @@ span.rating.a {color: #666;}
 span.rating.b {color: #000;}
 span.rating.c {color: #700;}
 span.rating.d {color: #b01;}
-.tag.warning {color: #700;}
 .tag {text-decoration: underline; color: #333; font-family: sans-serif; display: inline-block; padding: 5px; display: inline-block; position: relative;}
+.warning {color: #700;}
 .tag:hover {color: #000;}
 .tag.important {font-weight: bold;}
 .tag span.note {position: absolute; top: 2.5em; display: none; background-color: #bbb; padding: 5px; font-size: 0.6em; z-index: 2;}
