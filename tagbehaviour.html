@@ -1,0 +1,362 @@
+<!Doctype html>
+<html>
+<head>
+<title>TagBook</title>
+<meta charset="UTF-8">
+<style>
+/*TODO make autocomplete borders with spans inside, not the container*/
+/*TODO fix widths and margins for cross-browser compatibility*/
+/*TODO style inputs after ubuntu*/
+.tag {border: 2px solid #666; border-radius: 0.3em; font-style: oblique; padding: 0.3em 0.5em 0.1em 0.5em; cursor: pointer; margin: 0.2em; line-height: 1.5em; font-family: sans-serif; background-color: #ddd; position: relative;}
+.tag .meta, .tag .details, .tag .dispute {position: absolute; font-size: 0.6em; left: 3px; right: 3px; font-style: normal; padding: 2px 5px 0px 2px; height: 0px; box-sizing: border-box; transition: height 100ms, top 100ms, padding 100ms, max-height 150ms; padding: 0; border: none; overflow: hidden; font-weight: normal;}
+.tag .meta {background-color: inherit; text-align: center; top: -2px; border: inherit; border-radius: 5px 5px 0 0; border-bottom: none;}
+.tag .details {background-color: white; padding: 0em 0.5em 0em 0.5em; top: 30px; max-height: 0px; left: -2px; right: -2px;}
+.tag .dispute {background-color: #ddd; border: 1px solid #666; border-radius: 5px; right: 100%; position: absolute; margin-right: 2px;}
+.tag:hover {z-index: 2;}
+input.tag:focus {z-index: 3;}
+.tag:hover .meta {top: -18px; height: 18px; line-height: 1em; padding: 7px 3px 0 3px !important;}
+.tag:hover .details {height: auto; max-height: 10vh; line-height: 1.3em;} /* Todo: dont show if spoiler */
+.tag:hover .dispute {height: auto; }
+.mobile .tag:hover .dispute {width: 1em; color: transparent;}
+.mobile .tag:hover .dispute::before {content: "\2713"; font-weight: bold; display: block; position: absolute; top:0; left:0; text-align: center; width: 100%; color: black; font-size: 1em; font-family: sans-serif;}
+.canon {font-style: unset;}
+.major {font-weight: bold;}
+.warning {background-color: #FF6F5C; border-color: #FF2D11;} .warning.major {background-color: #FF2D11;}
+.author, .series {background-color: #FFD28B; border-color: #FBB13C;}
+.author.major, .series.major {background-color: #FBB13C;}
+.universe, .setting, .era, .location {background-color: #EDFC89; border-color: #DBF04A;}
+.universe.major, .setting.major, .era.major, .location.major {background-color: #DBF04A;}
+.character {background-color: #9DBDE4; border-color: #4879B3;} .character.major {background-color: #4879B3;}
+.trope, .plot {background-color: #DB99E4; border-color: #A641B4;}
+.trope.major, .plot.major {background-color: #A641B4;}
+.spoiler {background-color: #ddd; border-color: #666; color: #ddd;}
+input.spoiler {color: #999;}
+.spoiler::after {content: "spoiler"; display: block; position: absolute; top: 0; left: 0; text-align: center; width: 100%; color: black; font-size: 0.8em;}
+/*todo: spoiler colours?*/
+input.tag {width:200px; height: 22px;}
+form {position: relative;}
+#auto1, #auto2 {position: absolute; left: 272px; z-index: 2; background-color: #ddd; line-height: 1.2em;
+    width: 203px; top: 33px;}
+#auto1 span, #auto2 span {display: block;font-size: 0.8em; position: relative; padding: 0 9px; border-left: 1px solid #666; border-right: 1px solid #666;}
+#auto1 span:first-child {}
+#auto1 span:last-child, #auto2 span:last-child {border-bottom: 1px solid #666; border-radius: 0px 0px 5px 5px;}
+#auto1 span.active, #auto2 span.active {padding-left: 21px;}
+#auto1 span.active::before, #auto2 span.active::before {content: "⮞"; display: block; position: absolute; top: 0; left: 9px; width: 100%; color: black; font-size: 0.8em;}
+#auto2 {left:65px;}
+#meta1 input, #details1 input {background-color: white;}
+#spoiler1, #details1 {margin-right: 1px;}
+#input1, #input2 {}
+#major1, #spoiler1, #major2, #spoiler2, #add1, #add2 {position: relative;}
+#major1 input, #spoiler1 input, #major2 input, #spoiler2 input {}
+#major1.active input, #spoiler1.active input, #major2.active input, #spoiler2.active input {border-color: rgba(0,0,0,0.5);
+-webkit-box-shadow: 0px 0px 1px 0px rgb(234, 234, 234) inset;
+-moz-box-shadow: 0px 0px 1px 0px rgb(234, 234, 234) inset;
+box-shadow: 0px 0px 1px 0px rgb(234, 234, 234) inset;
+background-color: #ededed;
+background-image: -webkit-gradient(linear, 0% 0%, 0% 100%,color-stop(0, rgb(122, 122, 122)),color-stop(0.496, rgb(122, 122, 122)),color-stop(0.5, rgb(122, 122, 122)),color-stop(1, rgb(90, 90, 90)));
+background-image: -webkit-repeating-linear-gradient(to bottom,rgb(122, 121, 121) 0%,rgb(122, 122, 122) 49.6%,rgb(122, 122, 122) 50%,rgb(90, 90, 90) 100%);
+background-image: repeating-linear-gradient(to bottom,rgb(122, 121, 121) 0%,rgb(122, 122, 122) 49.6%,rgb(122, 122, 122) 50%,rgb(90, 90, 90) 100%);
+background-image: -ms-repeating-linear-gradient(to bottom,rgb(122, 121, 121) 0%,rgb(122, 122, 122) 49.6%,rgb(122, 122, 122) 50%,rgb(90, 90, 90) 100%); color: #fbfbfb;}
+.mobile #major1 input, .mobile #spoiler1 input, .mobile #major2 input, .mobile #spoiler2 input, .mobile #add1 input, .mobile #add2 input, .mobile #details2 input {width: 1em; color: transparent;}
+.mobile #major1::before, .mobile #spoiler1::before, .mobile #major2::before, .mobile #spoiler2::before, .mobile #add1::before, .mobile #add2::before, .mobile #details2::before {font-weight: bold; display: block; position: absolute; top:0; left:0; text-align: center; width: 100%; color: black; font-size: 1em; font-family: sans-serif;}
+.mobile #major1::before, .mobile #major2::before {content: "*"; top: 3px;}
+.mobile #spoiler1::before, .mobile #spoiler2::before {content: "!";}
+.mobile #details2::before {content: "+";}
+.mobile #add2::before {content: "\2713";}
+#meta1, #meta2 {width: 80px;}
+/*.mobile #meta1, .mobile #meta2 {display: none;} /* hide placeholder, put below */
+.mobile #meta1+span, .mobile #meta2+span {display: none;}
+#details2 {position: relative;}
+.mobile #details2 input {width: 0px; margin-right: 1px;}
+#major1 input {margin-right: 1px;}
+.mobile #major2 input {border-right:none; border-radius: 5px 0 0 5px;}
+.mobile #spoiler2 input {border-radius: 0 5px 5px 0;}
+.mobile {position: relative;}
+.mobile #meta2 {position: absolute; left: 58px; top: -20px; border: none; outline: none; background: white; width: unset; padding: 8px; font-size: 0.8em; color: #666;}
+
+#meta2::-webkit-input-placeholder { /* WebKit browsers */ color: transparent;}
+#meta2:-moz-placeholder { /* Mozilla Firefox 4 to 18 */ color: transparent;}
+#meta2::-moz-placeholder { /* Mozilla Firefox 19+ */ color: transparent;}
+#meta2:-ms-input-placeholder { /* Internet Explorer 10+ */ color: transparent;}
+.mobile #details2.active::before {display: none;}
+.mobile #details2 input:focus, .mobile #details2.active input, .mobile #details2.active input {width: 200px !important; position: absolute; top: 28px; left: -222px; font-size: 0.8em; padding: 0.3em 0.5em 0.1em 0.5em; color: #666;}
+
+
+.ubuntustyle {border-radius: 5px; font-size: 15px; color: #4e4e4e; background: #ffffff; display: inline-block; border: 1px solid rgba(0, 0, 0, 0.25); font-family: Ubuntu, sans-serif; outline: none; padding: 5px 13px; line-height: 1em;
+background-image: -webkit-gradient(linear, 0% 0%, 0% 100%,color-stop(0, rgb(255, 255, 255)),color-stop(1, rgb(240, 240, 240)));
+background-image: -webkit-repeating-linear-gradient(top,rgb(255, 255, 255) 0%,rgb(240, 240, 240) 100%);
+background-image: repeating-linear-gradient(to bottom,rgb(255, 255, 255) 0%,rgb(240, 240, 240) 100%);
+background-image: -ms-repeating-linear-gradient(top,rgb(255, 255, 255) 0%,rgb(240, 240, 240) 100%);}
+
+.ubuntustyle:hover {border-color: rgba(0,0,0,0.5);
+-webkit-box-shadow: 0px 1px 1px 0px rgb(234, 234, 234);
+-moz-box-shadow: 0px 1px 1px 0px rgb(234, 234, 234);
+box-shadow: 0px 1px 1px 0px rgb(234, 234, 234);}
+
+.ubuntustyle:active {-webkit-box-shadow: 0px 1px 1px 0px rgb(234, 234, 234);
+-moz-box-shadow: 0px 1px 1px 0px rgb(234, 234, 234);
+box-shadow: 0px 1px 1px 0px rgb(234, 234, 234);
+background-color: #ededed;
+background-image: -webkit-gradient(linear, 0% 0%, 0% 100%,color-stop(0, rgb(231, 231, 231)),color-stop(0.496, rgb(231, 231, 231)),color-stop(0.5, rgb(231, 231, 231)),color-stop(1, rgb(255, 255, 255)));
+background-image: -webkit-repeating-linear-gradient(top,rgb(231, 231, 231) 0%,rgb(231, 231, 231) 49.6%,rgb(231, 231, 231) 50%,rgb(255, 255, 255) 100%);
+background-image: repeating-linear-gradient(to bottom,rgb(231, 231, 231) 0%,rgb(231, 231, 231) 49.6%,rgb(231, 231, 231) 50%,rgb(255, 255, 255) 100%);
+background-image: -ms-repeating-linear-gradient(top,rgb(231, 231, 231) 0%,rgb(231, 231, 231) 49.6%,rgb(231, 231, 231) 50%,rgb(255, 255, 255) 100%);}
+
+
+
+</style>
+<script>
+function tagVisitor(tag) {
+  if (tag.classList.contains("spoiler")) tag.classList.remove("spoiler");
+}
+function toggleMajor(num) {
+  var btn = document.getElementById("major"+num);
+  var input = document.getElementById("input"+num);
+  var major = btn.classList.contains("active");
+  if (major) btn.classList.remove("active");
+  else btn.classList.add("active");
+  if (!major) input.classList.add("major");
+  else input.classList.remove("major");
+}
+function toggleSpoiler(num) {
+  var btn = document.getElementById("spoiler"+num);
+  var input = document.getElementById("input"+num);
+  var spoiler = btn.classList.contains("active");
+  if (spoiler) btn.classList.remove("active");
+  else btn.classList.add("active");
+  if (!spoiler) input.classList.add("spoiler");
+  else input.classList.remove("spoiler");
+}
+function keyTag(e, num) {
+  var keynum = (window.event) ? e.keyCode : keynum = e.which;
+  var input = document.getElementById("input"+num);
+  var meta = document.getElementById("meta"+num);
+  var auto = document.getElementById("auto"+num);
+  if (keynum == 8) {showAuto(num, meta.value, input.value); if (input.value=="" || meta.value!="") {input.classList.remove(meta.value.toLowerCase()); meta.value="";}} // backspace
+  if (keynum == 9) {auto.innerHTML = ""; if (2==num) document.getElementById("details2").classList.add("active");} // tab to details
+  if (keynum == 38) { // up
+    var active = 0;
+    var oldcompletions = auto.getElementsByTagName("span");
+    for (var i=0; i<oldcompletions.length; i++) {
+      if (oldcompletions[i].classList.contains("active")) {active = i;}
+    }
+    oldcompletions[active].classList.remove("active");
+    if (oldcompletions.length>0) {
+      var select = oldcompletions.length-1;
+      if (active != 0) select = active-1;
+      oldcompletions[select].className = "active"; 
+    }
+  }
+  if (keynum == 40) { // down
+    var active = -1;
+    var oldcompletions = auto.getElementsByTagName("span");
+    for (var i=0; i<oldcompletions.length; i++) {
+      if (oldcompletions[i].classList.contains("active")) {active = i;}
+    }
+    if (active>-1) oldcompletions[active].classList.remove("active");
+    if (oldcompletions.length>0) {
+      var select = 0;
+      if (active != oldcompletions.length-1) select = active+1;
+      oldcompletions[select].className = "active"; 
+    }
+  }
+  if (input.value=="!" || input.value=="*" || input.value==":") input.value="";
+}
+function keyDetails(e, num) {
+  var keynum = (window.event) ? e.keyCode : keynum = e.which;
+  if (keynum == 13) create(num); // Enter
+}
+function typeTag(e, num) {
+  var keynum = (window.event) ? e.keyCode : keynum = e.which;
+  var input = document.getElementById("input"+num);
+  var meta = document.getElementById("meta"+num);
+  var auto = document.getElementById("auto"+num);
+  if (keynum == 13) { // enter
+    var active = "";
+    var oldcompletions = auto.getElementsByTagName("span");
+    for (var i=0; i<oldcompletions.length; i++) {
+      if (oldcompletions[i].classList.contains("active")) active = oldcompletions[i].value;
+    }
+    if (active == "") {create(num); return;}
+    else { // fill in autocomplete
+      // if autocomplete contains meta, put that in
+      if (active.indexOf("::")>0) {
+        meta.value = active.substring(0, active.indexOf("::"));
+        input.classList.add(meta.value.toLowerCase());
+        input.value = active.substring(active.indexOf("::")+2);
+        auto.innerHTML = "";
+        if (checkCanon(meta.value, input.value)) input.classList.add("canon"); else input.classList.remove("canon");
+      }
+      else { // no meta
+        input.value = active;
+        auto.innerHTML = "";
+        if (checkCanon(meta.value, input.value)) input.classList.add("canon"); else input.classList.remove("canon");
+        return;
+      }
+    }
+  }
+  if (keynum == 33) {if (input.value=="") {toggleSpoiler(num); e.stopPropagation(); return false;}} // !
+  if (keynum == 42) {if (input.value=="") {toggleMajor(num); e.stopPropagation(); return;}} // *
+  if (keynum == 58) {if (input.value.endsWith(":")) {
+	meta.value=input.value.slice(0,-1); e.stopPropagation(); 
+	input.value=""; input.classList.add(meta.value.toLowerCase()); auto.innerHTML = ""; return;}} // :
+  
+  var tag = input.value + String.fromCharCode(keynum);
+  // autocomplete
+  showAuto(num, meta.value, tag);
+  // check if canon
+  if (checkCanon(meta.value, tag)) input.classList.add("canon"); else input.classList.remove("canon");
+}
+
+function create(num) {
+  var major = document.getElementById("major"+num).classList.contains("active");
+  var spoiler = document.getElementById("spoiler"+num).classList.contains("active");
+  var meta = document.getElementById("meta"+num).value;
+  var tag = document.getElementById("input"+num).value;
+  var details = document.getElementById("details"+num).getElementsByTagName("input")[0].value;
+  var canon = checkCanon(meta, tag);
+  var warning = ["violence", "crime", "sex", "trigger"].indexOf(meta.toLowerCase())!==-1;
+  // reset everything
+  document.getElementById("major"+num).className = "";
+  document.getElementById("spoiler"+num).className = "";
+  document.getElementById("meta"+num).value = "";
+  document.getElementById("input"+num).value = "";
+  document.getElementById("input"+num).className = "tag";
+  document.getElementById("details"+num).className = "";
+  document.getElementById("details"+num).getElementsByTagName("input")[0].value = "";
+  document.getElementById("auto"+num).innerHTML = "";
+  // change the example tags
+  var classes = "tag";
+  classes += " "+meta.toLowerCase();
+  if (spoiler) classes += " spoiler";
+  if (major) classes += " major";
+  if (canon) classes += " canon";
+  if (warning) classes += " warning";
+  var tagcontent = tag;
+  if (""!=meta) tagcontent += "<span class='meta'>"+meta+"</span>";
+  if (""!=details) tagcontent += "<span class='details'>"+details+"</span>";
+  document.getElementById("pcvisitor").className = classes;
+  /*document.getElementById("mobvisitor").className = classes;
+  document.getElementById("pcuser").className = classes;
+  document.getElementById("mobuser").className = classes;*/
+  document.getElementById("pcvisitor").innerHTML = tagcontent;
+  /*document.getElementById("mobvisitor").innerHTML = tagcontent;
+  document.getElementById("pcuser").innerHTML = tagcontent;
+  document.getElementById("mobuser").innerHTML = tagcontent;*/
+  document.getElementById("input"+num).focus()
+}
+var canonical = ["Author::Terry Pratchett", 
+"Universe::Discworld",
+"Series::Discworld", "Series::Guards", "Series::Witches",
+"Location::Middle Earth", "Location::Lancre", "Location::Ankh-Morpork", "Location::Fictional", "Location::Europe", "Location::New York", "Location::Rural",
+"Character::Rincewind", "Character::Twoflower", "Character::The Luggage", "Character::Death", "Character::Frodo Baggins", "Character::Sherlock Holmes", "Character::Napoleon Bonaparte",
+"Genre::Fantasy", "Genre::Science Fiction", "Genre::Romance", "Genre::Adventure", "Genre::Humour",
+"Era::Present", "Era::Middle Ages", "Era::French Revolution",
+"Trope::Plot Armor", "Trope::Magic Imitating Technology",
+"Plot::Saving the world", "Plot::Good vs. Evil",
+"Theme::Family", "Theme::Friendship", "Theme::Hurt/Comfort", "Theme::Magic",
+"Tourism", "Picaresque", "Dragons", "Travel", "Eldritch Horrors", "Gods",
+"Violence::Murder", "Violence::Minor Character Death", "Violence::Major Character Death",
+"Crime::Insurance Fraud", "Crime::Arson", "Crime::Kidnapping"
+];
+var metas = ["Author", "Universe", "Series", "Setting", "Character", "Trope", "Plot", "Era", "Location", "Illustrator", "Translator", "Genre", "Violence", "Crime", "Sex", "Romance", "Representation", "Trigger", "Narration"];
+canonical.sort();
+metas.sort();
+function checkCanon(meta, tag) {
+  if (""!=meta) tag = meta+"::"+tag;
+  for (var i=0; i<canonical.length; i++) {
+    if (canonical[i].toLowerCase() == tag.toLowerCase()) return true;
+  }
+  return false;
+}
+function checkAuto(meta, tag) {
+  var result = [];
+  if (""!=meta) {
+    for (i=0; i<canonical.length; i++) {
+      if (canonical[i].toLowerCase().startsWith(meta.toLowerCase()+"::"+tag.toLowerCase())) 
+	result.push({display: canonical[i].substring(canonical[i].indexOf("::")+2), value: canonical[i].substring(canonical[i].indexOf("::")+2)});
+    }
+    return result;
+  }
+  else {
+    for (var i=0; i<metas.length; i++) {
+      if (metas[i].toLowerCase().startsWith(tag.toLowerCase())) 
+	result.push({display: metas[i], value: metas[i]+"::"});
+    }
+    if (result.length>1) return result;
+    for (i=0; i<canonical.length; i++) {
+      if (canonical[i].substring(canonical[i].indexOf("::")+2).toLowerCase().startsWith(tag.toLowerCase())) 
+	result.push({display: canonical[i], value: canonical[i]});
+    }
+    return result;
+  }
+}
+function showAuto(num, meta, tag) {
+  var auto = document.getElementById("auto"+num);
+  var active = "";
+  var oldcompletions = auto.getElementsByTagName("span");
+  for (var i=0; i<oldcompletions.length; i++) {
+    if (oldcompletions[i].classList.contains("active")) active = oldcompletions[i].value;
+  }
+  auto.innerHTML = "";
+  var complete = checkAuto(meta, tag);
+  var maxcomplete = (complete.length<5) ? complete.length : 5;
+  if (maxcomplete>0) for (var i=0; i<maxcomplete; i++) {
+    var elem = document.createElement("span");
+    elem.value = complete[i].value;
+    elem.innerHTML = complete[i].display;
+    if (complete[i].value == active) elem.className = "active";
+    elem.onclick = function() {selectAuto(elem, num);};
+    auto.appendChild(elem);
+  }
+}
+function selectAuto(elem, num) {
+}
+</script>
+</head>
+<body class="browser">
+<h1>Tag demo</h1>
+This is a demo for creating, editing and viewing a single tag. Fiddle with the tag through the input form or the menu on the logged-in view - it will change the demo tag. 
+This demo requires JavaScript, but the "real thing" would not. Fancy autocompletes and instant feedback would not work, though, but it should still be possible to use. 
+<b>Tested in Firefox 65 on Ubuntu. Might look or behave differently on other browsers/systems. Tell me about it!</b><br>
+Known issues: Minimum screen width of 800px. Still missing the dispute button with its own menu.<br><br>
+<br>
+<!--<table cellspacing="10">
+<tr>
+<td></td>
+<td>mobile view</td>
+<td>pc view</td>
+</tr>
+<tr>
+<td>as seen by a visitor</td>
+<td>--><span class="tag canon violence warning" id="pcvisitor" onclick="tagVisitor(this);">Murder<span class="meta">Violence</span><span class="details">by death, on pg. 242</span></span><!--</td>
+<td class="mobile"><span class="tag canon violence warning" id="mobvisitor" onclick="tagVisitor(this);">Murder<span class="meta">Violence</span><span class="details">by death</span></span></td>
+</tr>
+<tr>
+<td>as seen by a logged-in user</td>
+<td><span class="tag editable canon warning violence" id="pcuser">Murder<span class="meta">Violence</span><span class="details">by death</span><span class="dispute">dispute</span></span></td>
+<td class="mobile"><span class="tag editable canon warning violence" id="mobuser">Murder<span class="meta">Violence</span><span class="details">by death</span><span class="dispute">dispute</span></span></td>
+</tr>
+</table>-->
+
+<h3>Tag input forms</h3>
+<form><span id="major1" onclick="toggleMajor(1);"><input type="button" value="major" class="ubuntustyle"></span><span id="spoiler1" onclick="toggleSpoiler(1);"><input type="button" value="spoiler" class="ubuntustyle"></span><input type="text" placeholder="meta" class="ubuntustyle" id="meta1"><span>::</span><input type="text" class="tag" placeholder="enter tag" id="input1" onkeyup="keyTag(event,1);" onkeypress="typeTag(event,1);" onfocusout="document.getElementById('auto1').innerHTML='';"><span id="details1"><input type="text" placeholder="details" onkeyup="keyDetails(event,1);" class="ubuntustyle"></span><span  id="add1" onclick="create(1);"><input type="button" value="add" class="ubuntustyle"></span><div id="auto1"></div></form>
+<br><br><br><br>
+<form class="mobile"><span id="major2" onclick="toggleMajor(2);"><input type="button" value="major" class="ubuntustyle"></span><span id="spoiler2" onclick="toggleSpoiler(2);"><input type="button" value="spoiler" class="ubuntustyle"></span><input type="text" placeholder="meta" id="meta2"><span>::</span><input type="text" class="tag" placeholder="enter tag" id="input2" onkeyup="keyTag(event,2);" onkeypress="typeTag(event,2);" onfocusout="document.getElementById('auto2').innerHTML='';"><span id="details2" onclick="this.classList.add('active');" onfocus="this.classList.add('active');" onkeyup="keyDetails(event,2);"><input type="text" class="ubuntustyle"></span><span id="add2" onclick="create(2);"><input type="button" value="add" class="ubuntustyle"></span><div id="auto2"></div></form>
+
+
+<h3>Explanations and hints</h3>
+<ul>
+<li>Hover on the tag. This would be displayed on click for mobile devices.</li>
+<li>Start writing a tag in the input field for autocomplete suggestions.</li>
+<li>Navigate autocomplete suggestions with up and down arrow.</li>
+<li>Press enter after selecting an autocomplete suggestion to complete the tag.</li>
+<li>Press enter after you finish typing to create the tag, or click "add" to update the demo tags.</li>
+<li>Type "*" at the beginning to mark tag as major, or click "major"/"*".</li>
+<li>Type "!" at the beginning to mark tag as spoiler, or click "spoiler"/"!".</li>
+<li>Type "::" after entering a meta tag (like "character" or "location"), or write it into the meta tag input.</li>
+<li>You can delete the meta tag by pressing backspace in the empty tag input field.</li>
+<li>You can enter many tags one after another using only the keyboard. Try it out.</li>
+<li>Add details that will be displayed on mouseover for notes on how the tag relates to this specific work. Press tab while in the tag input for fast access.</li>
+</ul>
+</body>
